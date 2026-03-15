@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# Old individual shock scripts (consolidated into run_shock.py)
+shock_ars443_BP.py
+shock_dp2a242_BP.py
+shock_plain_BP.py
+adhoc.py
+scp.sh
