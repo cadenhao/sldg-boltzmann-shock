@@ -52,9 +52,9 @@ The transport part reduces to **reconstructing** $f^n$ on the **upstream interva
   <img src="diagrams/sldg_backtracing.png" width="520" alt="SLDG characteristic back-tracing"/>
 </p>
 
-The upstream left edge $x_{j-1/2} - v\Delta t$ generally falls inside some element $I_{j^*}$, at a fractional offset $\alpha \in [0,1)$ from the element boundary. Inserting the DG representation and performing Gauss quadrature on both sides yields a compact **matrix multiplication**:
+The upstream left edge $x_{j-1/2} - v\Delta t$ generally falls inside some element $I_{j^{*}}$, at a fractional offset $\alpha \in [0,1)$ from the element boundary. Inserting the DG representation and performing Gauss quadrature on both sides yields a compact **matrix multiplication**:
 
-$$\mathcal{S}_{v, \Delta t}[f]_{j, \cdot} = A(\alpha) \, f_{j^*, \cdot} + B(\alpha) \, f_{j^*+1, \cdot}$$
+$$\mathcal{S}_{v, \Delta t}[f]_{j, \cdot} = A(\alpha) \, f_{j^{*}, \cdot} + B(\alpha) \, f_{j^{*}+1, \cdot}$$
 
 where the **updating matrices** $A(\alpha)$ and $B(\alpha)$ are:
 
@@ -62,9 +62,9 @@ $$A(\alpha)_{p_j, p} = \frac{1 - \alpha}{\omega_{p_j}} \sum_q \omega_q \, \tilde
 
 $$B(\alpha)_{p_j, p} = \frac{\alpha}{\omega_{p_j}} \sum_q \omega_q \, \tilde{\ell}_p(\alpha \, u_q) \, \tilde{\ell}_{p_j}\!\left(\alpha(u_q{-}1)+1\right)$$
 
-with $\omega_q$, $u_q$ the Gauss-Legendre weights and nodes, and $\tilde\ell_p$ the Lagrange polynomials on $[0,1]$. Since each velocity component $v$ determines $\alpha$ and $j^*$ independently, the full transport step $\mathcal{S}[f]$ is a loop over all velocities, each involving only two small matrix-vector products per element. Importantly, **there is no CFL restriction** — the shift $v\Delta t$ can span multiple elements.
+with $\omega_q$, $u_q$ the Gauss-Legendre weights and nodes, and $\tilde\ell_p$ the Lagrange polynomials on $[0,1]$. Since each velocity component $v$ determines $\alpha$ and $j^{*}$ independently, the full transport step $\mathcal{S}[f]$ is a loop over all velocities, each involving only two small matrix-vector products per element. Importantly, **there is no CFL restriction** — the shift $v\Delta t$ can span multiple elements.
 
-> **Implementation:** `util/SLDG_integrator.py` → `SLDGIntegrator.integrate()` is the main entry point. `_updating_matrices()` computes $A(\alpha)$ and $B(\alpha)$; `_search_segments()` locates the upstream element $j^*$; `_apply_bc()` handles periodic / Neumann / inflow boundary conditions.
+> **Implementation:** `util/SLDG_integrator.py` → `SLDGIntegrator.integrate()` is the main entry point. `_updating_matrices()` computes $A(\alpha)$ and $B(\alpha)$; `_search_segments()` locates the upstream element $j^{*}$; `_apply_bc()` handles periodic / Neumann / inflow boundary conditions.
 
 ### 3. BGK Penalisation and Asymptotic Preserving Property
 
